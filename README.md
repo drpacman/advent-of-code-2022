@@ -1,6 +1,11 @@
-# VSCode set up
+# Advent of code 2022
+Learn some C!
 
-Library docs - Installed cpp-reference-and-documentation plugin, highlight code and press CTRL+SHIFT+A to show cpp documenation page.
+# VSCode set up
+Added the following extenions:
+- C/C++ 
+- C/C++ Extensions Pack
+- Cpp-reference-and-documentation - adds display for library docs when highlighting code and press CTRL+SHIFT+A to show cpp documenation page.
 
 # Useful links
 
