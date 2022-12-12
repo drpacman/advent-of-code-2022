@@ -38,34 +38,19 @@ void display_board(int* steps, int width, int height, int end_pos){
     }   
 }
 
-int main(){
-    struct file_contents fc = read_lines("input");
+int* shortest_path(int* board, int width, int height, int start_pos){
+    int length = width * height;
+    int* steps = calloc(length, sizeof(int));
+    for (int i=0;i<length;i++){
+        steps[i]=999;
+    }
+    steps[start_pos]=0;
+    
     struct stack moves;
     new(&moves);
-    // parse all the lines - treat S as 'a' and E as 'z''
-    int height=fc.line_count;
-    int width=strlen(fc.lines[0]);
-    int* board = calloc(height*width, sizeof(int));
-    int* steps = calloc(height*width, sizeof(int));
-    int end_pos = 0;
-    for (int y=0;y<height;y++){
-        for (int x=0;x<width;x++){
-            int pos = (y*width)+x;
-            steps[pos]=999;
-            if (fc.lines[y][x] == 'S') {
-                board[pos]=0;
-                push(&moves, pos); 
-                push(&moves, 0); 
-                steps[pos]=0;
-            } else if (fc.lines[y][x] == 'E'){
-                board[pos]=25;
-                end_pos=pos;
-            } else {
-                board[pos]=fc.lines[y][x]-'a';
-            }
-        }
-    }
-
+    push(&moves, start_pos); 
+    push(&moves, 0); 
+    
     int lrud[4] = { -1, 1, -width, width };
     // walk the board from available moves
     while (!is_empty(&moves)){
@@ -83,9 +68,50 @@ int main(){
                 push(&moves, dist+1);
             }
         }
+    }  
+    return steps;  
+}
+
+int main(){
+    struct file_contents fc = read_lines("input");
+    // parse all the lines - treat S as 'a' and E as 'z''
+    int height=fc.line_count;
+    int width=strlen(fc.lines[0]);
+    int end_pos = 0;
+    int start_pos = 0;
+    int length = width * height;
+    int* board = calloc(length, sizeof(int));
+    for (int y=0;y<height;y++){
+        for (int x=0;x<width;x++){
+            int pos = (y*width)+x;
+            if (fc.lines[y][x] == 'S') {
+                board[pos]=0;
+                start_pos = pos;
+            } else if (fc.lines[y][x] == 'E'){
+                board[pos]=25;
+                end_pos=pos;
+            } else {
+                board[pos]=fc.lines[y][x]-'a';
+            }
+        }
     }
-    display_board(steps, width, height, end_pos);
-    
+
+    int* steps = shortest_path(board, width, height, start_pos);
+    display_board(steps, width, height, end_pos);    
     printf("Part1 - %i\n", steps[end_pos]);
+
+    int min_path_from_a = 9999;
+    int* shortest_a_path;
+    for (int i=0;i<length;i++){
+        if (board[i] == 0){
+            int* steps = shortest_path(board, width, height, i);
+            if (steps[end_pos] < min_path_from_a){
+                shortest_a_path = steps;
+                min_path_from_a = steps[end_pos];
+            }
+        }
+    }
+    display_board(shortest_a_path, width, height, end_pos);    
+    printf("Part2 - %i\n",min_path_from_a);
 }
 
