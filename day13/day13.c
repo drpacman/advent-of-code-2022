@@ -88,16 +88,6 @@ struct list num_to_list(int n) {
     return num_as_list;    
 }
 
-int get_first_num(struct list l){
-    if (l.len == 0){
-        return -1;
-    } else if (l.entries[0].kind == num){
-        return l.entries[0].item.i;
-    } else {
-        return get_first_num(l.entries[0].item.list);
-    }
-}
-
 int compare_list(const void * l, const void * r){
     struct list left = *(struct list *)l;
     struct list right = *(struct list *)r;
