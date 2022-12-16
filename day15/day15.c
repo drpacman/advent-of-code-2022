@@ -120,8 +120,9 @@ int main(){
                     }
                 }
                 if (found){
-                    u_int64_t tuning_freq = (u_int64_t)(positions[pos][0] * 4000000) + positions[pos][1];
-                    printf("Part 2 - (%i,%i) - %llu\n", positions[pos][0], positions[pos][1], tuning_freq);
+                    u_int64_t tuning_freq = (u_int64_t)positions[pos][0] * 4000000 + positions[pos][1];
+                    printf("Part 2 - missing co-ordinate is (%i,%i) - answer = %llu\n", positions[pos][0], positions[pos][1], tuning_freq);
+                    exit(0);
                 }
             }
         }
