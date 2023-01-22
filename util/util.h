@@ -23,3 +23,19 @@ void struct_stack_push(struct struct_stack* s, void* e);
 void* struct_stack_pop(struct struct_stack* s);
 int struct_stack_is_empty (struct struct_stack* s);
 void struct_stack_new (struct struct_stack* s, int stack_size);
+int struct_stack_size(struct struct_stack* s);
+
+struct ring_buffer {
+    void** items;
+    int head;
+    int tail;
+    int len;
+};
+
+struct ring_buffer* ringbuffer_new(int buffer_size);
+int ringbuffer_is_empty(struct ring_buffer* rb);
+int ringbuffer_size(struct ring_buffer* rb);
+void ringbuffer_append(struct ring_buffer* rb, void * entry);
+void* ringbuffer_remove(struct ring_buffer* rb);
+void ringbuffer_clear(struct ring_buffer* rb);
+void* ringbuffer_item(struct ring_buffer* rb, int offset);
